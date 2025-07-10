@@ -1,0 +1,41 @@
+name: Build Spring Boot JAR
+
+on:
+  push:
+    branches:
+      - main  # triggers only on push to main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout source code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Java
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'  # Use the version your project needs
+
+      # Step 3: Cache Maven dependencies (optional but faster)
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
+
+      # Step 4: Build the JAR file
+      - name: Build with Maven
+        run: ./mvnw clean package -DskipTests
+
+      # Step 5: Save the JAR as a build artifact
+      - name: Upload JAR artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: spring-boot-jar
+          path: target/*.jar
