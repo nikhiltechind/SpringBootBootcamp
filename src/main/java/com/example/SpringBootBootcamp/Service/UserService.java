@@ -2,7 +2,9 @@ package com.example.SpringBootBootcamp.Service;
 
 import com.example.SpringBootBootcamp.DTO.PaginationDTO;
 import com.example.SpringBootBootcamp.Mapper.PaginationMapper;
+import com.example.SpringBootBootcamp.Models.Asset;
 import com.example.SpringBootBootcamp.Models.User;
+import com.example.SpringBootBootcamp.Repositories.AssetRepository;
 import com.example.SpringBootBootcamp.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,9 @@ public class UserService implements UserServiceInterface{
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AssetRepository assetRepository;
 
 
     public PaginationDTO<User> getUsers(int limit, int offset, String keyword){
@@ -32,7 +37,14 @@ public class UserService implements UserServiceInterface{
 
 
     public User addUser( User user){
-        return userRepository.save(user);
+        if(user.getAsset()!=null) {
+            Asset asset = user.getAsset();
+            // System.out.println(asset.);
+            assetRepository.save(asset); // making transient asset object persistent by saving in Db first
+        }
+        User res = userRepository.save(user);
+
+        return  res;
     }
 
     public List<User> addUsers(List<User> users){

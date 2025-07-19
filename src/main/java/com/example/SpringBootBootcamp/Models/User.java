@@ -16,6 +16,10 @@ public class User {
    // @JsonProperty("Name")  when we need to set the json property explicitly
     private String name;
 
+    @OneToOne
+    @JoinColumn(name = "asset_id")
+    private Asset asset;
+
     public User(int id, String name) {
         Id = id;
         this.name = name;
@@ -28,9 +32,7 @@ public class User {
         return Id;
     }
 
-    public void setId(int id) {
-        Id = id;
-    }
+
 
     public String getName() {
         return name;
@@ -40,5 +42,11 @@ public class User {
         this.name = Name;
     }
 
+    public Asset getAsset() {
+        return asset;
+    }
 
+    public void setAsset(Asset asset) {
+        this.asset = asset;
+    }
 }

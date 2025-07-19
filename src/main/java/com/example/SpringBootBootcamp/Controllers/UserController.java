@@ -2,6 +2,7 @@ package com.example.SpringBootBootcamp.Controllers;
 
 
 import com.example.SpringBootBootcamp.DTO.PaginationDTO;
+import com.example.SpringBootBootcamp.Models.Asset;
 import com.example.SpringBootBootcamp.Models.User;
 import com.example.SpringBootBootcamp.Repositories.UserRepository;
 import com.example.SpringBootBootcamp.Service.UserService;
@@ -47,4 +48,7 @@ public class UserController {
     public List<User> addUsers(@RequestBody List<User> users){
         return userService.addUsers(users);
    }
+
+//   @GetMapping("/addAsset")
+//    public User (@RequestBody Asset)
 }
