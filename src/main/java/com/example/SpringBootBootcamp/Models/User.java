@@ -1,5 +1,7 @@
 package com.example.SpringBootBootcamp.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
@@ -10,18 +12,20 @@ public class User {
     @Id
     @Column(name = "user_id")
     @GeneratedValue
-    private int Id;
+    private int id;
 
     @Column(name = "user_name")
    // @JsonProperty("Name")  when we need to set the json property explicitly
     private String name;
 
-    @OneToOne
-    @JoinColumn(name = "asset_id")
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name = "asset_id_fk", referencedColumnName = "asset_id")
+  //  @JsonManagedReference
+
     private Asset asset;
 
     public User(int id, String name) {
-        Id = id;
+        this.id = id;
         this.name = name;
     }
 
@@ -29,7 +33,7 @@ public class User {
     }
 
     public int getId() {
-        return Id;
+        return this.id;
     }
 
 

@@ -2,14 +2,13 @@ package com.example.SpringBootBootcamp.Controllers;
 
 
 import com.example.SpringBootBootcamp.DTO.PaginationDTO;
-import com.example.SpringBootBootcamp.Models.Asset;
+import com.example.SpringBootBootcamp.DTO.UserDto;
 import com.example.SpringBootBootcamp.Models.User;
-import com.example.SpringBootBootcamp.Repositories.UserRepository;
 import com.example.SpringBootBootcamp.Service.UserService;
+import com.example.SpringBootBootcamp.Service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -30,7 +29,7 @@ public class UserController {
 
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable int id){
+    public UserDto getUserById(@PathVariable int id){
        return  userService.getUserById(id);
     }
 
