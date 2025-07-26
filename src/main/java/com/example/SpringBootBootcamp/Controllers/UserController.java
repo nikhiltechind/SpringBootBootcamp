@@ -7,6 +7,7 @@ import com.example.SpringBootBootcamp.Models.User;
 import com.example.SpringBootBootcamp.Service.UserService;
 import com.example.SpringBootBootcamp.Service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public class UserController {
    }
 
    @PutMapping("/{id}")
-    public String updateUser(@PathVariable int id, @RequestBody User user){
+    public ResponseEntity<String> updateUser(@PathVariable int id, @RequestBody User user){
        return userService.updateUser(id,user);
    }
 

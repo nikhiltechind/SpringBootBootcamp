@@ -2,16 +2,20 @@ package com.example.SpringBootBootcamp.Service;
 
 import com.example.SpringBootBootcamp.DTO.PaginationDTO;
 import com.example.SpringBootBootcamp.DTO.UserDto;
+import com.example.SpringBootBootcamp.Exceptions.CustomExceptions.UserNotFoundException;
 import com.example.SpringBootBootcamp.Mapper.PaginationMapper;
 import com.example.SpringBootBootcamp.Models.Asset;
 import com.example.SpringBootBootcamp.Models.User;
 import com.example.SpringBootBootcamp.Repositories.AssetRepository;
 import com.example.SpringBootBootcamp.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -60,15 +64,14 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    public String updateUser( int id,  User user){
+    public ResponseEntity<String> updateUser(int id, User user){
+        Optional<User> optionalUser = userRepository.findById(id);
 
-        User originalUser = userRepository.getById(id);
-
-        if(originalUser!=null) {
-            originalUser.setName(user.getName());
-            userRepository.save(originalUser);
-            return  "User details updated";
+        if (optionalUser.isEmpty()) {
+            throw new UserNotFoundException("User not found with ID: " + id);
         }
-        return "User Not found";
+
+        UserDto userDto = new UserDto(optionalUser.get());
+        return new ResponseEntity<>("User Updated", HttpStatus.ACCEPTED);
     }
 }

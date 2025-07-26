@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import org.springframework.http.HttpStatus;
 
 @Entity
 @Table(name = "user_table")
@@ -21,12 +22,12 @@ public class User {
     @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "asset_id_fk", referencedColumnName = "asset_id")
   //  @JsonManagedReference
-
     private Asset asset;
 
     public User(int id, String name) {
         this.id = id;
         this.name = name;
+
     }
 
     public User() {
